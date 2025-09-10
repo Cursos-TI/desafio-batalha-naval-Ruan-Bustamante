@@ -6,6 +6,10 @@
 #define AGUA 0
 #define NAVIO 3
 
+// Função para determinar se a posição do Navio é válida
+int posicao_valida (int tabuleiro[TAMANHO_TABULEIRO][TAMANHO_TABULEIRO], int l, int c);
+
+
 int main() {
     
     // Definições do tabuleiro
@@ -18,37 +22,91 @@ int main() {
         }
     }
 
-    // Posicionamento do navio1 - Horizontal
-    int linha_navio1 = 2;
-    int coluna_navio1 = 3;
-    char orientacao_navio1 = 'H'; // Para Horizontal
+    // Coordenadas dos navios
 
-    // Validação navio dentro do tabuleiro
-    if (orientacao_navio1 == 'H' && (coluna_navio1 + TAMANHO_NAVIO > TAMANHO_TABULEIRO)) {
-        printf("Erro! Navio1 fora dos limites do tabuleiro!\n");
-        return 1; // Sai do programa se houver erro
-    }
+    // Navio 1: Horizontal
+    int linha_navio1 = 1;
+    int coluna_navio1 = 1;
 
-    // Posiciona navio1 no tabuleiro
+    // Navio 2: Vertical
+    int linha_navio2 = 3;
+    int coluna_navio2 = 7;
+
+    // Navio 3: Diagonal Crescente
+    int linha_navio3 = 5;
+    int coluna_navio3 = 5;
+
+    // Navio 4: Diagonal Decrescente
+    int linha_navio4 = 3;
+    int coluna_navio4 = 5;
+
+    // Posicionando os navios
+    int valido = 1; // Flag para verificar a validade da posição antes de posicionar
+
+    // Navio 1: Horizontal
+   valido = 1;
     for (int i = 0; i < TAMANHO_NAVIO; i++) {
-        tabuleiro[linha_navio1][coluna_navio1 + i] = NAVIO;
+        // Se alguma posição for invalida, a validação falha
+        if (!posicao_valida(tabuleiro, linha_navio1, coluna_navio1 + i)) {
+            valido = 0; // Marca como falha
+            break;
+        }
+    }
+    if (valido) {
+        for (int i = 0; i < TAMANHO_NAVIO; i++) {
+            tabuleiro[linha_navio1][coluna_navio1 + i] = NAVIO;
+        }
+    }  else {
+            printf("Erro ao posicionar Navio 1: Horizontal.\n");
     }
 
-    // Posicionamento do navio2 - Vertical
-    int linha_navio2 = 5;
-    int coluna_navio2 = 6;
-    char orientacao_navio2 = 'V'; // Para Vertical
-
-    // Validação navio dentro do tabuleiro
-    if (orientacao_navio2 == 'V' && (linha_navio2 + TAMANHO_NAVIO > TAMANHO_TABULEIRO)) {
-        printf("Erro! Navio2 fora dos limites do tabuleiro!\n");
-        return 1; // Sai do programa se houver erro
-    }
-
-    // Posiciona navio2 no tabuleiro
+    // Navio 2: Vertical
+    valido = 1;
     for (int i = 0; i < TAMANHO_NAVIO; i++) {
-        tabuleiro[linha_navio2 + i][coluna_navio2] = NAVIO;
+        if (!posicao_valida(tabuleiro, linha_navio2 + i, coluna_navio2)) {
+            valido = 0; // Marca como falha
+            break;
+        }
     }
+    if (valido) {
+        for (int i = 0; i < TAMANHO_NAVIO; i++) {
+            tabuleiro[linha_navio2 + i][coluna_navio2] = NAVIO;
+        }
+        } else {
+            printf("Erro ao posicionar Navio 2: Vertical.\n");
+    }
+
+    // Navio 3: Diagonal Crescente
+    valido = 1;
+        for (int i = 0; i < TAMANHO_NAVIO; i++) {
+            if (!posicao_valida(tabuleiro, linha_navio3 + i, coluna_navio3 + i)) {
+                valido = 0; // Marca como falha
+                break;
+            }
+        }
+        if (valido) {
+            for (int i = 0; i < TAMANHO_NAVIO; i++) {
+                tabuleiro[linha_navio3 + i][coluna_navio3 + i] = NAVIO;
+            }
+            } else {
+                printf("Erro ao posicionar Navio 3: Diagonal Crescente.\n");
+        }
+
+    // Navio 4: Diagonal Decrescente
+    valido = 1;
+        for (int i = 0; i < TAMANHO_NAVIO; i++) {
+            if (!posicao_valida(tabuleiro, linha_navio4 + i, coluna_navio4 - i)) {
+                valido = 0; // Marca como falha
+                break;
+            }
+        }
+        if (valido) {
+            for (int i = 0; i < TAMANHO_NAVIO; i++) {
+                tabuleiro[linha_navio4 + i][coluna_navio4 - i] = NAVIO;
+            }
+            } else {
+                printf("Erro ao posicionar Navio 4: Diagonal Decrescente.\n");
+        }
 
     // Exibe o tabuleiro
     printf("\n--- Tabuleiro Batalha Naval ---\n");
@@ -69,34 +127,19 @@ int main() {
         printf("\n"); // Nova linha após cada linha do tabuleiro
     }
 
-    
-
-
-    // Nível Aventureiro - Expansão do Tabuleiro e Posicionamento Diagonal
-    // Sugestão: Expanda o tabuleiro para uma matriz 10x10.
-    // Sugestão: Posicione quatro navios no tabuleiro, incluindo dois na diagonal.
-    // Sugestão: Exiba o tabuleiro completo no console, mostrando 0 para posições vazias e 3 para posições ocupadas.
-
-    // Nível Mestre - Habilidades Especiais com Matrizes
-    // Sugestão: Crie matrizes para representar habilidades especiais como cone, cruz, e octaedro.
-    // Sugestão: Utilize estruturas de repetição aninhadas para preencher as áreas afetadas por essas habilidades no tabuleiro.
-    // Sugestão: Exiba o tabuleiro com as áreas afetadas, utilizando 0 para áreas não afetadas e 1 para áreas atingidas.
-
-    // Exemplos de exibição das habilidades:
-    // Exemplo para habilidade em cone:
-    // 0 0 1 0 0
-    // 0 1 1 1 0
-    // 1 1 1 1 1
-    
-    // Exemplo para habilidade em octaedro:
-    // 0 0 1 0 0
-    // 0 1 1 1 0
-    // 0 0 1 0 0
-
-    // Exemplo para habilidade em cruz:
-    // 0 0 1 0 0
-    // 1 1 1 1 1
-    // 0 0 1 0 0
-
     return 0;
+}
+
+// Funcao para verificar se a posicao e valida
+// Retorna 1 se a posicao e valida, 0 caso contrario
+int posicao_valida(int tabuleiro[TAMANHO_TABULEIRO][TAMANHO_TABULEIRO], int l, int c) {
+    // Verifica se esta dentro dos limites do tabuleiro (0 a 9)
+    if (l < 0 || l >= TAMANHO_TABULEIRO || c < 0 || c >= TAMANHO_TABULEIRO) {
+        return 0; // Fora dos limites do tabuleiro
+    } 
+    // Verifica se a posicao ja esta ocupada por um navio
+    if (tabuleiro[l][c] != AGUA) {
+        return 0; // Ja ocupado
+    }
+    return 1; // Posicao valida
 }
